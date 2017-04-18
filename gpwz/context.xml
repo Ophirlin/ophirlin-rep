@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+      <!-- local develop environment -->
+	  <Resource 
+		auth="Container" 
+		driverClassName="com.mysql.jdbc.Driver"
+		type="javax.sql.DataSource" 
+		maxActive="60"
+		maxIdle="10" 
+		maxWait="8000" 
+		name="jdbc/gpwz"
+		username="root"
+		password="hucaiqin"	
+		url="jdbc:mysql://localhost:3306/znjj"/> 
+</Context>

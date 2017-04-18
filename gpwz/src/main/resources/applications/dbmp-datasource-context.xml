@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+	
+	<!-- ==================================================================================== -->
+	<!-- DBMP库数据源配置 -->
+	<!-- ==================================================================================== -->
+	<!-- <bean id="dbmpDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="${jndi.znjj}" />
+		<property name="resourceRef" value="true" />
+	</bean> -->
+	<bean id="dbmpDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+           <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+           <property name="url" value="jdbc:mysql://localhost:3306/znjj?characterEncoding=UTF-8"/>
+           <property name="username" value="root"/>
+           <property name="password" value="hucaiqin"/>
+           <!-- <property name="password" value="GvS1999./"/> -->
+    </bean> 
+    <bean id="dbmpJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> 
+        <property name="dataSource" ref="dbmpDataSource" /> 
+    </bean>
+    <!-- 事务策略 -->
+    <bean id="dbmpTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+ 		<property name="dataSource">  
+   			<ref local="dbmpDataSource"/>
+  		</property>  
+  		<qualifier value="dbmp"/>
+  	</bean>
+  	
+  	<!-- 事务控制   -->  
+	<tx:annotation-driven transaction-manager="dbmpTransactionManager" /> 
+  	
+  	<!-- ================================================================================================= -->
+	<!-- JdbcTemplate集合配置 -->
+	<!-- ================================================================================================= -->
+  	<bean id="dbConfig" class="com.dbmp.core.dao.jdbc.DbConfig">
+		<property name="dbtypeMap">
+			<map>
+				<entry key="dbmpJdbcTemplate" value="${dbtype.dbmp}" />
+			</map>
+		</property>
+		<property name="jdbcTemplateMap">
+			<map>
+				<entry key="dbmpJdbcTemplate" value-ref="dbmpJdbcTemplate" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- ================================================================================================= -->
+	<!-- JBPM Hibernate 配置 -->
+	<!-- ================================================================================================= -->
+	<!-- 
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dbmpDataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>jbpm.repository.hbm.xml</value>
+				<value>jbpm.execution.hbm.xml</value>
+				<value>jbpm.history.hbm.xml</value>
+				<value>jbpm.task.hbm.xml</value>
+				<value>jbpm.identity.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	 -->
+</beans>

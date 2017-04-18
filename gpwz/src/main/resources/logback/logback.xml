@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE configuration>
+
+<configuration debug="false" scan="true" scanPeriod="30000"> 
+
+    <contextName>${logback.context.name}</contextName> 
+	<jmxConfigurator />	
+	
+	<property resource="properties/logback-cfg.properties"  /> 
+	
+	<!-- ================================================================================== -->
+	<!-- 登录日志 -->
+	<!-- ================================================================================== -->
+	<appender name="Login_Log_File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logback.login.path}/${logback.login.filename}</File>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder charset="utf-8">
+			<Pattern>%msg%n</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	        <fileNamePattern>${logback.login.path}/${logback.login.filename}.%d{yyyy-MM-dd}</fileNamePattern>
+			<maxHistory>60</maxHistory>
+	    </rollingPolicy>	    	    	
+	</appender>
+	
+	<logger name="login_Log" addivity="false">
+		<level>INFO</level>
+	    <appender-ref ref="Login_Log_File"/>
+	</logger>
+	
+	
+	<!-- ================================================================================== -->
+	<!-- 用户操作日志 -->
+	<!-- ================================================================================== -->
+	<appender name="Operator_Log_File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logback.operator.path}/${logback.operator.filename}</File>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder charset="utf-8">
+			<Pattern>%msg%n</Pattern>
+		</encoder>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	        <fileNamePattern>${logback.operator.path}/${logback.operator.filename}.%d{yyyy-MM-dd}</fileNamePattern>
+			<maxHistory>60</maxHistory> 
+	    </rollingPolicy>	
+	</appender>
+	<logger name="Operator_Log" addivity="false">
+		<level>INFO</level>
+	    <appender-ref ref="Operator_Log_File"/>
+	</logger>
+	
+	<!-- ================================================================================== -->
+	<!-- 数据库操作日志 -->
+	<!-- ================================================================================== -->
+	<appender name="Db_Log_File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logback.db.path}/${logback.db.filename}</File>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder charset="utf-8">
+			<Pattern>%msg%n</Pattern>
+		</encoder>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	        <fileNamePattern>${logback.db.path}/${logback.db.filename}.%d{yyyy-MM-dd}</fileNamePattern>
+			<maxHistory>60</maxHistory> 
+	    </rollingPolicy>	
+	</appender>
+	<logger name="Db_Log" addivity="false">
+		<level>INFO</level>
+	    <appender-ref ref="Db_Log_File"/>
+	</logger>
+	
+	<!-- ================================================================================== -->
+	<!-- api接口调用日志 -->
+	<!-- ================================================================================== -->
+	<appender name="Api_Call_Log_File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logback.api.call.path}/${logback.api.call.filename}</File>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder charset="utf-8">
+			<Pattern>%msg%n</Pattern>
+		</encoder>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	        <fileNamePattern>${logback.api.call.path}/${logback.api.call.filename}.%d{yyyy-MM-dd}</fileNamePattern>
+			<maxHistory>60</maxHistory> 
+	    </rollingPolicy>	
+	</appender>
+	<logger name="Api_Call_Log" addivity="false">
+		<level>INFO</level>
+	    <appender-ref ref="Api_Call_Log_File"/>
+	</logger>
+	
+	
+	<!-- ================================================================================== -->
+	<!-- 系统异常日志 -->
+	<!-- ================================================================================== -->
+	<appender name="System_Error_Log_File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logback.error.path}/${logback.error.filename}</File>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+			<OnMismatch>DENY</OnMismatch>
+			<OnMatch>ACCEPT</OnMatch>
+		</filter>
+		<encoder charset="utf-8">
+			<Pattern>%msg%n</Pattern>
+		</encoder>
+	     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	        <fileNamePattern>${logback.error.path}/${logback.error.filename}.%d{yyyy-MM-dd}</fileNamePattern>
+			<maxHistory>60</maxHistory> 
+	     </rollingPolicy>	
+	</appender>
+	<logger name="System_Error_Log" addivity="false">
+		<level>ERROR</level>
+	    <appender-ref ref="System_Error_Log_File"/>
+	</logger>
+	
+	<!-- ================================================================================== -->
+	<!-- 控制台输出日志 -->
+	<!-- ================================================================================== -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="com.jaf.core.logger.filter.LoggerNameFilter">				
+			<LevelString>${log.level}</LevelString>
+			
+			<!-- ALL为全部logger都输出;为空将不输出 -->
+			<AcceptLogger>ALL</AcceptLogger>
+			
+			<!-- 但以下logger不输出;为空将输出;若两个都为空将都不输出(先判断AcceptLogger再判断DenyLogger), -->
+			<DenyLogger>org.jbpm,org.hibernate,org.springframework.scheduling,org.quartz</DenyLogger>
+		</filter>
+		<encoder charset="utf-8">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger[%line] [%p] %msg%n</pattern>
+		</encoder>
+	</appender>
+	<root>
+	     <level>ALL</level>
+	     <appender-ref ref="STDOUT"/>
+	</root>
+</configuration>  
