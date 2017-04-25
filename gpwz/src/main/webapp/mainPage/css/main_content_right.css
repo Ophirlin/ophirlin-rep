@@ -1,0 +1,49 @@
+div.main-right {
+    display: inline-block;
+    font-weight: 100;
+}
+div.main-right {
+    margin-top: 20px;
+    margin-left: 40px;
+}
+div.main-theme {
+    width: 220px;
+    height: 400px;
+    background-size: cover;
+}
+div.main-theme div {
+    height: 380px;
+    background-color: rgba(10, 10, 10, 0.5);
+    color: white;
+    padding: 10px;
+    text-align: right;
+}
+div.main-theme div h1 {
+    text-align: right;
+}
+div.main-theme>div>p:nth-child(1) {
+    font-size: 15px;
+}
+
+div.advertise {
+    height: 220px;
+    width: 220px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-size: cover;
+    color: white;
+}
+
+div.column-writer{
+    color: #532A2A
+}
+div.sub-column-writer img {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+div.sub-column-writer {
+    text-align: left;
+}
